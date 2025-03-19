@@ -1,13 +1,14 @@
-﻿using abvancedEshop.Data;
+﻿using abvancedEshop.Components;
+using abvancedEshop.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace abvancedEshop.Components
 {
-    public class JustArrved:ViewComponent
+    public class JustArrived:ViewComponent
     {
         private readonly ApplicationDbContext _context;
 
-        public JustArrved(ApplicationDbContext context)
+        public JustArrived(ApplicationDbContext context)
         {
             _context = context;
         }

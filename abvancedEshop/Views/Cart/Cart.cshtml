@@ -5,7 +5,6 @@
 
 
 
-
 <!-- Cart Start -->
 <div class="container-fluid pt-5">
     <div class="row px-xl-5">
@@ -21,12 +20,11 @@
                     </tr>
                 </thead>
                 <tbody class="align-middle">
-
                     @if (Model?.line != null && Model.line.Any())
                     {
-                        <pre>@Html.Raw(Json.Serialize(Model))</pre>
+                        @* <pre>@Html.Raw(Json.Serialize(Model))</pre> *@
                         @foreach (var item in Model.line)
-                        {
+                        {   
                             <tr>
                                 <td class="align-middle"><img src="img/product-1.jpg" alt="" style="width: 50px;"> @item.Product.ProductName</td>
                                 <td class="align-middle">$@item.Product.ProductPrice</td>

@@ -14,16 +14,17 @@ namespace abvancedEshop.Controllers
         {
             _context = context;
         }
-        public IActionResult AddToCart(int productId)
+        public IActionResult AddToCart(int ProductId)
         {
-            Product? product = _context.Products.FirstOrDefault(p => p.ProductId == productId);
+            Product? product = _context.Products.FirstOrDefault(p => p.ProductId == ProductId);
             if (product != null)
             {
                 var cart = HttpContext.Session.GetJson<Cart>("Cart") ?? new Cart();
                 cart.AddItem(product, 1);
                 HttpContext.Session.Setjson("Cart", cart);
+                return View("Cart", cart);
             }
-            return View("Cart", cart);
+            return NotFound();
         }
 
     }

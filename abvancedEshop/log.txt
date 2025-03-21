@@ -1,6 +1,8 @@
-﻿bui bao ngoc dang o day...
-huynh dang o day 
-ok ngoc thay roi..
-huynh
-huynh da o day
-ok
+﻿21/03/2025, 13:56 
+{
+	Fix lỗi hiển thị dữ liệu khi ấn nút Add To Cart
+	{
+		1.Lỗi xảy ra khi url thừa 2 dấu ?? không lấy được Id trong controller.
+		2.Lỗi trong controller AddToCart tra về cart ở ngoài phạm vi của biến nên lỗi null Model. 
+	}
+}

@@ -26,7 +26,7 @@
         // xoa san pham
         public void RemoveLine(Product product) => line.RemoveAll(p => p.Product.ProductId == product.ProductId);
         // tinh tong tien
-        public decimal ComputeTotalValue(Product product) => (decimal)line.Sum(p => p.Product?.ProductPrice * p.Quantity);
+        public decimal ComputeTotalValue() => (decimal)line.Sum(p => p.Product?.ProductPrice * p.Quantity);
         //
         public void Clear() => line.Clear();
         //

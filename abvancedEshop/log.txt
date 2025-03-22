@@ -7,3 +7,19 @@
 	}
 }
 /
+
+22/03/2025, 11:11 
+{
+	Fix lỗi hiển thị dữ liệu khi lọc category
+	{
+		1.Lỗi xảy ra khi viết sai cú pháp tại dòng 15 (Viết sai category thành categiry)
+		{
+           <a href="/Products/ProductsBycat?categiryId=@item.CategoryId" class="nav-item nav-link">@item.CategoryName</a>
+			sửa thành 
+			{
+				<a href="/Products/ProductsBycat?categoryId=@item.CategoryId" class="nav-item nav-link">@item.CategoryName</a>
+			}
+		}
+	}
+}
+/

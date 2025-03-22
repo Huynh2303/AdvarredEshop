@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using abvancedEshop.Data;
 using abvancedEshop.Models;
+using abvancedEshop.Models.ViewModel;
+using Microsoft.VisualStudio.Web.CodeGeneration.Templating;
 
 namespace abvancedEshop.Controllers
 {
@@ -18,27 +20,71 @@ namespace abvancedEshop.Controllers
         {
             _context = context;
         }
-
+        int pageSize = 3;
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int productPage = 1)
         {
-            var applicationDbContext = _context.Products.Include(p => p.Category).Include(p => p.Color).Include(p => p.Size);
-            return View(await applicationDbContext.ToListAsync());
+            return View(
+                         new ProductListViewModel
+                         {
+                             Products = _context.Products  
+                               .Skip((productPage-1)*pageSize)
+                               .Take(pageSize),
+
+                               PagingInfor = new PagingInfor
+                               {
+                                   ItemPerPage= pageSize,
+                                   CurrenPage= productPage,
+                                   TotalItem = _context.Products.Count()
+                               }
+                                
+                         }
+                
+                
+                
+                );
+        }                 public async Task<IActionResult> Search( string Searchstring ,int productPage = 1 )
+        {
+            return View(  "Index",
+                         new ProductListViewModel
+                         {
+                             Products = _context.Products .Where(p=>p.ProductName.Contains(Searchstring)) 
+                               .Skip((productPage-1)*pageSize)
+                               .Take(pageSize),
+
+                               PagingInfor = new PagingInfor
+                               {
+                                   ItemPerPage= pageSize,
+                                   CurrenPage= productPage,
+                                   TotalItem = _context.Products.Count()
+                               }
+                                
+                         }
+                
+                
+                
+                );
         }
-        public async Task<IActionResult> ProductsBycat(int categoryid)
+        public async Task<IActionResult> ProductsBycat(int categoryid, IEnumerable<Product> products)
         {
-            var products = await _context.Products
+            var products1 = await _context.Products
             .Where(p => p.CategoryId == categoryid)
             .Include(p => p.Category)
             .Include(p => p.Color)
             .Include(p => p.Size)
             .ToListAsync();
-            Console.WriteLine($"Category ID: {categoryid}, Products found: {products.Count}"); // Debug
+            Console.WriteLine($"Category ID: {categoryid}, Products found: {products1.Count}"); // Debug
+            var viewmodel = new ProductListViewModel {
+
+
+                Products = products1
+
+            }; 
             if (!products.Any())
             {
                 ViewBag.Message = "Không có sản phẩm nào trong danh mục này.";
             }
-            return View("Index", products);
+            return View("Index", viewmodel);
         }
 
 

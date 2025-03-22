@@ -14,6 +14,10 @@ namespace abvancedEshop.Controllers
         {
             _context = context;
         }
+        public IActionResult Index()
+        {
+             return View("Cart", HttpContext.Session.GetJson<Cart>("Cart") ?? new Cart());
+        }
         public IActionResult AddToCart(int ProductId)
         {
             Product? product = _context.Products.FirstOrDefault(p => p.ProductId == ProductId);
@@ -21,6 +25,30 @@ namespace abvancedEshop.Controllers
             {
                 var cart = HttpContext.Session.GetJson<Cart>("Cart") ?? new Cart();
                 cart.AddItem(product, 1);
+                HttpContext.Session.Setjson("Cart", cart);
+                return View("Cart", cart);
+            }
+            return NotFound();
+        }    
+        public IActionResult UpToCart(int ProductId)
+        {
+            Product? product = _context.Products.FirstOrDefault(p => p.ProductId == ProductId);
+            if (product != null)
+            {
+                var cart = HttpContext.Session.GetJson<Cart>("Cart") ?? new Cart();
+                cart.AddItem(product, -1);
+                HttpContext.Session.Setjson("Cart", cart);
+                return View("Cart", cart);
+            }
+            return NotFound();
+        }     
+        public IActionResult RemoveFromCart(int ProductId)
+        {
+            Product? product = _context.Products.FirstOrDefault(p => p.ProductId == ProductId);
+            if (product != null)
+            {
+                var cart = HttpContext.Session.GetJson<Cart>("Cart");
+                cart.RemoveLine(product);
                 HttpContext.Session.Setjson("Cart", cart);
                 return View("Cart", cart);
             }

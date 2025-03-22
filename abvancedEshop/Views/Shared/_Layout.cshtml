@@ -81,17 +81,12 @@
                     <i class="fas fa-heart text-primary"></i>
                     <span class="badge">0</span>
                 </a>
-                <a href="" class="btn border">
-                    <i class="fas fa-shopping-cart text-primary"></i>
-                    <span class="badge">0</span>
-                </a>
+                @await Component.InvokeAsync("CartWidget")
             </div>
         </div>
     </div>
     <!-- Topbar End -->
     <!-- Navbar Start -->
-
-
     @await Component.InvokeAsync("Navbar")
 
     <!-- Navbar End -->
@@ -126,35 +121,20 @@
     </div>
     <!-- Featured End -->
     <!-- Categories Start -->
-
-
-
     <!-- Categories End -->
     <!-- Offer Start -->
-
-
-
-
-
     <!-- Offer End -->
     <!-- Products Start -->
     @RenderBody()
 
-   
-    
-   
+
+
+
 
     <!-- Products End -->
     <!-- Subscribe Start -->
-
-
-
     <!-- Subscribe End -->
     <!-- Products Start -->
-   
-   
-
-
     <!-- Products End -->
     <!-- Vendor Start -->
     <div class="container-fluid py-5">

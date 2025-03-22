@@ -24,7 +24,25 @@ namespace abvancedEshop.Controllers
         {
             var applicationDbContext = _context.Products.Include(p => p.Category).Include(p => p.Color).Include(p => p.Size);
             return View(await applicationDbContext.ToListAsync());
-        }
+        }   
+        public async Task<IActionResult>    ProductsBycat( int categoryid)
+        {
+
+            var products = await _context.Products
+        .Where(p => p.CategoryId == categoryid)
+        .Include(p => p.Category)
+        .Include(p => p.Color)
+        .Include(p => p.Size)
+        .ToListAsync();
+            Console.WriteLine($"Category ID: {categoryid}, Products found: {products.Count}"); // Debug
+            if (!products.Any())
+            {
+                ViewBag.Message = "Không có sản phẩm nào trong danh mục này.";
+            }
+
+            return View("Index", products);
+        }                                               
+
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)

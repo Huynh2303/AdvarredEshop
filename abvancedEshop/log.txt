@@ -6,3 +6,4 @@
 		2.Lỗi trong controller AddToCart tra về cart ở ngoài phạm vi của biến nên lỗi null Model. 
 	}
 }
+/

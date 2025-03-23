@@ -8,6 +8,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("abvancedEshopContext") ?? throw new InvalidOperationException("Connection string 'abvancedEshopContext' not found.")));
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("abvancedEshopContext") ?? throw new InvalidOperationException("Connection string 'abvancedEshopContext' not found.")));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("abvancedEshopContext") ?? throw new InvalidOperationException("Connection string 'abvancedEshopContext' not found.")));
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");

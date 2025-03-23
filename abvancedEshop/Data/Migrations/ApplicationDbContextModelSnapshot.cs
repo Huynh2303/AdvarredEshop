@@ -248,6 +248,72 @@ namespace abvancedEshop.Data.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("abvancedEshop.Models.Chechout", b =>
+                {
+                    b.Property<int>("CheckoutId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CheckoutId"));
+
+                    b.Property<string>("AddressLine1")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("AddressLine2")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("ChechoutCity")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("ChechoutCountry")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("ChechoutEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ChechoutFirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ChechoutLastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ChechoutPhone")
+                        .HasMaxLength(10)
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("CreateAnAccount")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ShipToDifferentAddress")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ZIpCode")
+                        .HasColumnType("int");
+
+                    b.HasKey("CheckoutId");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("Chechout");
+                });
+
             modelBuilder.Entity("abvancedEshop.Models.Color", b =>
                 {
                     b.Property<int>("ColorId")
@@ -263,6 +329,24 @@ namespace abvancedEshop.Data.Migrations
                     b.HasKey("ColorId");
 
                     b.ToTable("Colors");
+                });
+
+            modelBuilder.Entity("abvancedEshop.Models.Country", b =>
+                {
+                    b.Property<int>("CountryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CountryId"));
+
+                    b.Property<string>("CountryName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("CountryId");
+
+                    b.ToTable("Country");
                 });
 
             modelBuilder.Entity("abvancedEshop.Models.Product", b =>
@@ -384,6 +468,15 @@ namespace abvancedEshop.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("abvancedEshop.Models.Chechout", b =>
+                {
+                    b.HasOne("abvancedEshop.Models.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId");
+
+                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("abvancedEshop.Models.Product", b =>

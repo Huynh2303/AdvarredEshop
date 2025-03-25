@@ -15,7 +15,7 @@ namespace abvancedEshop.Data
         public DbSet<Color> Colors { get; set; }
         public DbSet<Size> Sizes { get; set; }
         public DbSet<Chechout> chechouts { get; set; }
-        
-        public DbSet<abvancedEshop.Models.Chechout> Chechout { get; set; } = default!;
+        public  DbSet<OrderCart> orders { get; set; }
+        public DbSet<Chechout> Chechout { get; set; } = default!;
     }
 }

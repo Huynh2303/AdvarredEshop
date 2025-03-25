@@ -1,6 +1,7 @@
 ﻿using abvancedEshop.Data;
 using abvancedEshop.Infrastructure;
 using abvancedEshop.Models;
+using abvancedEshop.Models.SQLViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace abvancedEshop.Controllers
@@ -18,39 +19,7 @@ namespace abvancedEshop.Controllers
         {
              return View("Cart", HttpContext.Session.GetJson<Cart>("Cart") ?? new Cart());
         }
-        public IActionResult ProceedToCheckout()
-        {
-            // Lấy giỏ hàng từ Session
-            Cart cart = HttpContext.Session.GetJson<Cart>("Cart") ?? new Cart();
-
-            if (cart.line.Count == 0)
-            {
-                return RedirectToAction("Index", "Cart"); // Nếu giỏ hàng trống, quay lại giỏ hàng
-            }
-
-            // Tạo đơn hàng từ giỏ hàng
-            Chechout checkout = new Chechout
-            {
-                ChechoutFirstName = "",
-                ChechoutLastName = "",
-                ChechoutEmail = "",
-                ChechoutPhone = 0,
-                AddressLine1 = "",
-                AddressLine2 = "",
-                ChechoutCity = "",
-                ChechoutCountry = "",
-                State = "",
-                ZIpCode = 0,
-                CreateAnAccount = false,
-                ShipToDifferentAddress = false
-            };
-
-            _context.chechouts.Add(checkout);
-            _context.SaveChanges();
-
-            // Chuyển hướng đến trang Chechout với ID đơn hàng
-            return RedirectToAction("Index", "Chechouts", new { id = checkout.CheckoutId });
-        }
+       
 
         public IActionResult AddToCart(int ProductId)
         {

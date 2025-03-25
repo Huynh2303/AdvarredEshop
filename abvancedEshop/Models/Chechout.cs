@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace abvancedEshop.Models
+namespace abvancedEshop.Models.SQLViewModel
 {
     public class Chechout
     {
@@ -13,7 +13,7 @@ namespace abvancedEshop.Models
         public string? ChechoutLastName { get; set; }
         [Required, EmailAddress]
         public string? ChechoutEmail { get; set; }
-        [Required, Phone, StringLength(10)]
+        [Required, Phone]
         public int ChechoutPhone { get; set; }
         [Required, StringLength(1000)]
         public string? AddressLine1 { get; set; }
@@ -33,5 +33,5 @@ namespace abvancedEshop.Models
 
 
     }
-    
+
 }

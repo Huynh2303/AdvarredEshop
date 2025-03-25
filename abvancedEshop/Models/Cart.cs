@@ -1,4 +1,4 @@
-﻿namespace abvancedEshop.Models
+﻿namespace abvancedEshop.Models.SQLViewModel
 {
     public class Cart
     {
@@ -26,7 +26,7 @@
         // xoa san pham
         public void RemoveLine(Product product) => line.RemoveAll(p => p.Product.ProductId == product.ProductId);
         // tinh tong tien
-        public decimal ComputeTotalValue() => (decimal)line.Sum(p => p.Product?.ProductPrice * (1 - p.Product.ProductDiscount)*p.Quantity);
+        public decimal ComputeTotalValue() => (decimal)line.Sum(p => p.Product?.ProductPrice * (1 - p.Product.ProductDiscount) * p.Quantity);
         //
         public void Clear() => line.Clear();
         //

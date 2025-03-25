@@ -349,6 +349,30 @@ namespace abvancedEshop.Data.Migrations
                     b.ToTable("Country");
                 });
 
+            modelBuilder.Entity("abvancedEshop.Models.OrderCart", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
+
+                    b.Property<int>("ChechoutId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("OrderId");
+
+                    b.HasIndex("ChechoutId");
+
+                    b.ToTable("orders");
+                });
+
             modelBuilder.Entity("abvancedEshop.Models.Product", b =>
                 {
                     b.Property<int>("ProductId")
@@ -477,6 +501,17 @@ namespace abvancedEshop.Data.Migrations
                         .HasForeignKey("CountryId");
 
                     b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("abvancedEshop.Models.OrderCart", b =>
+                {
+                    b.HasOne("abvancedEshop.Models.Chechout", "Chechout")
+                        .WithMany()
+                        .HasForeignKey("ChechoutId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chechout");
                 });
 
             modelBuilder.Entity("abvancedEshop.Models.Product", b =>

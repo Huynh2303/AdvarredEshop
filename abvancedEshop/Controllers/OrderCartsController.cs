@@ -6,40 +6,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using abvancedEshop.Data;
-using abvancedEshop.Infrastructure;
-using static abvancedEshop.Views.viewmodel;
-using abvancedEshop.Models.SQLViewModel;
+using abvancedEshop.Models;
 
 namespace abvancedEshop.Controllers
 {
-    public class ChechoutsController : Controller
+    public class OrderCartsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ChechoutsController(ApplicationDbContext context)
+        public OrderCartsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Chechouts
-        public async Task<IActionResult> Index()
+        // GET: OrderCarts
+        public  async Task<IActionResult> Index()
         {
-            // Lấy giỏ hàng từ Session
-            Cart cart = HttpContext.Session.GetJson<Cart>("Cart") ?? new Cart();
-
-           
-
-            return View(cart);
+            var applicationDbContext = _context.orders.Include(o => o.Chechout);
+            return View(await applicationDbContext.ToListAsync());
         }
-
-
-
-
-
-
-
-
-        // GET: Chechouts/Details/5
+        public  async Task<IActionResult>    order (OrderCart order)
+        {     return Json("huynh");
+            _context.Add(order);
+            await _context.SaveChangesAsync();
+            
+        }
+        // GET: OrderCarts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,39 +39,42 @@ namespace abvancedEshop.Controllers
                 return NotFound();
             }
 
-            var chechout = await _context.chechouts
-                .FirstOrDefaultAsync(m => m.CheckoutId == id);
-            if (chechout == null)
+            var orderCart = await _context.orders
+                .Include(o => o.Chechout)
+                .FirstOrDefaultAsync(m => m.OrderId == id);
+            if (orderCart == null)
             {
                 return NotFound();
             }
 
-            return View(chechout);
+            return View(orderCart);
         }
 
-        // GET: Chechouts/Create
+        // GET: OrderCarts/Create
         public IActionResult Create()
         {
+            ViewData["ChechoutId"] = new SelectList(_context.chechouts, "CheckoutId", "AddressLine1");
             return View();
         }
 
-        // POST: Chechouts/Create
+        // POST: OrderCarts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CheckoutId,ChechoutFirstName,ChechoutLastName,ChechoutEmail,ChechoutPhone,AddressLine1,AddressLine2,ChechoutCity,ChechoutCountry,State,ZIpCode,CreateAnAccount,ShipToDifferentAddress")] Chechout chechout)
+        public async Task<IActionResult> Create([Bind("OrderId,ChechoutId,OrderDate,TotalAmount")] OrderCart orderCart)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(chechout);
+                _context.Add(orderCart);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(chechout);
+            ViewData["ChechoutId"] = new SelectList(_context.chechouts, "CheckoutId", "AddressLine1", orderCart.ChechoutId);
+            return View(orderCart);
         }
 
-        // GET: Chechouts/Edit/5
+        // GET: OrderCarts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,22 +82,23 @@ namespace abvancedEshop.Controllers
                 return NotFound();
             }
 
-            var chechout = await _context.chechouts.FindAsync(id);
-            if (chechout == null)
+            var orderCart = await _context.orders.FindAsync(id);
+            if (orderCart == null)
             {
                 return NotFound();
             }
-            return View(chechout);
+            ViewData["ChechoutId"] = new SelectList(_context.chechouts, "CheckoutId", "AddressLine1", orderCart.ChechoutId);
+            return View(orderCart);
         }
 
-        // POST: Chechouts/Edit/5
+        // POST: OrderCarts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CheckoutId,ChechoutFirstName,ChechoutLastName,ChechoutEmail,ChechoutPhone,AddressLine1,AddressLine2,ChechoutCity,ChechoutCountry,State,ZIpCode,CreateAnAccount,ShipToDifferentAddress")] Chechout chechout)
+        public async Task<IActionResult> Edit(int id, [Bind("OrderId,ChechoutId,OrderDate,TotalAmount")] OrderCart orderCart)
         {
-            if (id != chechout.CheckoutId)
+            if (id != orderCart.OrderId)
             {
                 return NotFound();
             }
@@ -111,12 +107,12 @@ namespace abvancedEshop.Controllers
             {
                 try
                 {
-                    _context.Update(chechout);
+                    _context.Update(orderCart);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ChechoutExists(chechout.CheckoutId))
+                    if (!OrderCartExists(orderCart.OrderId))
                     {
                         return NotFound();
                     }
@@ -127,10 +123,11 @@ namespace abvancedEshop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(chechout);
+            ViewData["ChechoutId"] = new SelectList(_context.chechouts, "CheckoutId", "AddressLine1", orderCart.ChechoutId);
+            return View(orderCart);
         }
 
-        // GET: Chechouts/Delete/5
+        // GET: OrderCarts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,34 +135,35 @@ namespace abvancedEshop.Controllers
                 return NotFound();
             }
 
-            var chechout = await _context.chechouts
-                .FirstOrDefaultAsync(m => m.CheckoutId == id);
-            if (chechout == null)
+            var orderCart = await _context.orders
+                .Include(o => o.Chechout)
+                .FirstOrDefaultAsync(m => m.OrderId == id);
+            if (orderCart == null)
             {
                 return NotFound();
             }
 
-            return View(chechout);
+            return View(orderCart);
         }
 
-        // POST: Chechouts/Delete/5
+        // POST: OrderCarts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var chechout = await _context.chechouts.FindAsync(id);
-            if (chechout != null)
+            var orderCart = await _context.orders.FindAsync(id);
+            if (orderCart != null)
             {
-                _context.chechouts.Remove(chechout);
+                _context.orders.Remove(orderCart);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ChechoutExists(int id)
+        private bool OrderCartExists(int id)
         {
-            return _context.chechouts.Any(e => e.CheckoutId == id);
+            return _context.orders.Any(e => e.OrderId == id);
         }
     }
 }

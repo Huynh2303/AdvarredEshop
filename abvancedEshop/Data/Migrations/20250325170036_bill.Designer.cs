@@ -12,8 +12,8 @@ using abvancedEshop.Data;
 namespace abvancedEshop.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250323151044_init2")]
-    partial class init2
+    [Migration("20250325170036_bill")]
+    partial class bill
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -291,9 +291,9 @@ namespace abvancedEshop.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ChechoutPhone")
-                        .HasMaxLength(10)
-                        .HasColumnType("int");
+                    b.Property<string>("ChechoutPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CountryId")
                         .HasColumnType("int");
@@ -350,34 +350,6 @@ namespace abvancedEshop.Data.Migrations
                     b.HasKey("CountryId");
 
                     b.ToTable("Country");
-                });
-
-            modelBuilder.Entity("abvancedEshop.Models.OrderCart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Phone")
-                        .HasMaxLength(10)
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("orders");
                 });
 
             modelBuilder.Entity("abvancedEshop.Models.Product", b =>

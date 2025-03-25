@@ -1,7 +1,6 @@
 ﻿using abvancedEshop.Data;
 using abvancedEshop.Infrastructure;
 using abvancedEshop.Models;
-using abvancedEshop.Models.SQLViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace abvancedEshop.Controllers
@@ -17,9 +16,9 @@ namespace abvancedEshop.Controllers
         }
         public IActionResult Index()
         {
-             return View("Cart", HttpContext.Session.GetJson<Cart>("Cart") ?? new Cart());
+            return View("Cart", HttpContext.Session.GetJson<Cart>("Cart") ?? new Cart());
         }
-       
+
 
         public IActionResult AddToCart(int ProductId)
         {
@@ -32,7 +31,7 @@ namespace abvancedEshop.Controllers
                 return View("Cart", cart);
             }
             return NotFound();
-        }    
+        }
         public IActionResult UpToCart(int ProductId)
         {
             Product? product = _context.Products.FirstOrDefault(p => p.ProductId == ProductId);
@@ -44,7 +43,7 @@ namespace abvancedEshop.Controllers
                 return View("Cart", cart);
             }
             return NotFound();
-        }     
+        }
         public IActionResult RemoveFromCart(int ProductId)
         {
             Product? product = _context.Products.FirstOrDefault(p => p.ProductId == ProductId);

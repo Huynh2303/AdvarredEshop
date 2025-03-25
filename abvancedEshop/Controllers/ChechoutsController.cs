@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using abvancedEshop.Data;
 using abvancedEshop.Infrastructure;
 using static abvancedEshop.Views.viewmodel;
-using abvancedEshop.Models.SQLViewModel;
+using abvancedEshop.Models;
 
 namespace abvancedEshop.Controllers
 {
@@ -27,18 +27,20 @@ namespace abvancedEshop.Controllers
             // Lấy giỏ hàng từ Session
             Cart cart = HttpContext.Session.GetJson<Cart>("Cart") ?? new Cart();
 
-           
-
             return View(cart);
         }
-
-
-
-
-
-
-
-
+        [HttpPost]
+        public async Task<IActionResult> Billing([Bind("CheckoutId,ChechoutFirstName,ChechoutLastName,ChechoutEmail,ChechoutPhone,AddressLine1,AddressLine2,ChechoutCity,ChechoutCountry,State,ZIpCode")] Chechout chechout)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(chechout);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "Products");
+            }
+            return RedirectToAction(nameof(Index));
+            //return Json(chechout);
+        }
         // GET: Chechouts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -47,7 +49,7 @@ namespace abvancedEshop.Controllers
                 return NotFound();
             }
 
-            var chechout = await _context.chechouts
+            var chechout = await _context.Chechout
                 .FirstOrDefaultAsync(m => m.CheckoutId == id);
             if (chechout == null)
             {
@@ -87,7 +89,7 @@ namespace abvancedEshop.Controllers
                 return NotFound();
             }
 
-            var chechout = await _context.chechouts.FindAsync(id);
+            var chechout = await _context.Chechout.FindAsync(id);
             if (chechout == null)
             {
                 return NotFound();
@@ -138,7 +140,7 @@ namespace abvancedEshop.Controllers
                 return NotFound();
             }
 
-            var chechout = await _context.chechouts
+            var chechout = await _context.Chechout
                 .FirstOrDefaultAsync(m => m.CheckoutId == id);
             if (chechout == null)
             {
@@ -153,10 +155,10 @@ namespace abvancedEshop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var chechout = await _context.chechouts.FindAsync(id);
+            var chechout = await _context.Chechout.FindAsync(id);
             if (chechout != null)
             {
-                _context.chechouts.Remove(chechout);
+                _context.Chechout.Remove(chechout);
             }
 
             await _context.SaveChangesAsync();
@@ -165,7 +167,7 @@ namespace abvancedEshop.Controllers
 
         private bool ChechoutExists(int id)
         {
-            return _context.chechouts.Any(e => e.CheckoutId == id);
+            return _context.Chechout.Any(e => e.CheckoutId == id);
         }
     }
 }

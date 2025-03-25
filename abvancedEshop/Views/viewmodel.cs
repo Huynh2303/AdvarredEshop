@@ -4,7 +4,7 @@ namespace abvancedEshop.Views
 {
     public class viewmodel
     {
-    
+
         public class CheckoutViewModel
         {
             public Cart Cart { get; set; } // Giỏ hàng

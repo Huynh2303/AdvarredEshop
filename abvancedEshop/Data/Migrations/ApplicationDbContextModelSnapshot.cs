@@ -288,9 +288,9 @@ namespace abvancedEshop.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ChechoutPhone")
-                        .HasMaxLength(10)
-                        .HasColumnType("int");
+                    b.Property<string>("ChechoutPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CountryId")
                         .HasColumnType("int");
@@ -347,30 +347,6 @@ namespace abvancedEshop.Data.Migrations
                     b.HasKey("CountryId");
 
                     b.ToTable("Country");
-                });
-
-            modelBuilder.Entity("abvancedEshop.Models.OrderCart", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
-
-                    b.Property<int>("ChechoutId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("OrderId");
-
-                    b.HasIndex("ChechoutId");
-
-                    b.ToTable("orders");
                 });
 
             modelBuilder.Entity("abvancedEshop.Models.Product", b =>
@@ -501,17 +477,6 @@ namespace abvancedEshop.Data.Migrations
                         .HasForeignKey("CountryId");
 
                     b.Navigation("Country");
-                });
-
-            modelBuilder.Entity("abvancedEshop.Models.OrderCart", b =>
-                {
-                    b.HasOne("abvancedEshop.Models.Chechout", "Chechout")
-                        .WithMany()
-                        .HasForeignKey("ChechoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Chechout");
                 });
 
             modelBuilder.Entity("abvancedEshop.Models.Product", b =>

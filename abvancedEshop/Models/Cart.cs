@@ -1,4 +1,4 @@
-﻿namespace abvancedEshop.Models.SQLViewModel
+﻿namespace abvancedEshop.Models
 {
     public class Cart
     {

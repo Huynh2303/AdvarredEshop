@@ -25,3 +25,9 @@
 /
 chịu r bạn 
 bạn làm qua một lần để tôi học hỏi chứ thử mấy ngày r vẫn k ra 
+
+26/03/2025, 12:11 {
+	git branch(xem cách nhánh tồn tại)
+	git brach xxx(xxx là tên nhánh )(tao nhánh tên xxx)
+	git switch xxx(xxx là tên nhánh)(truy nhập vào nhánh xxx)
+}
